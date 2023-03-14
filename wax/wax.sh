@@ -22,6 +22,7 @@ if [ ! -x "$-(uname -a | grep '[Ww]indows')" ]; then
 fi
 
 bin=$1
+cp $bin ~/backup.bin
 
 if [[ $* == *--dev* ]]; then
     CHROMEBREW=chromebrew-dev.tar.gz
