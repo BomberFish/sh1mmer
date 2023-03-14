@@ -13,7 +13,7 @@
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-  font-family: "Exo", sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', 'Roboto Flex', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 @keyframes scroll {
@@ -38,7 +38,7 @@
 
 .header h1 {
   font-size: 15vw;
-  font-family: "Sofia Sans", sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', 'Roboto Flex', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 .header .acronym {
@@ -61,7 +61,7 @@
 }
 
 h3 {
-  font-family: "Space Grotesk", monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Mono', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
   font-size: 50px;
 }
 
@@ -78,7 +78,7 @@ u {
 }
 
 kbd {
-  font-family: "Space Grotesk", monospace;
+  font-family: ui-monospace, 'SF Mono', Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Mono', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
   background-color: var(--dark2);
   color: var(--white);
   white-space: nowrap;
@@ -118,7 +118,7 @@ a {
   text-decoration: none;
   white-space: nowrap;
   border-radius: 10px;
-  font-family: "Sofia Sans", sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', 'Roboto Flex', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   padding: 5px 10px;
   max-width: 100%;
   transition: filter 250ms;
