@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Wax4Web</title>
-    <link rel="icon" href="/icon.png" />
+    <link rel="icon" href="https://bomberfish.ca/sh1mmer/icon.png" />
     <link rel="stylesheet" href="https://bomberfish.ca/sh1mmer/main.css"/>
-    <script src="/script.js" defer></script>
+    <script src="https://bomberfish.ca/sh1mmer/script.js" defer></script>
 
-    <script src="/wax4web/libv86.js"></script>
+    <script src="https://bomberfish.ca/sh1mmer/wax4web/libv86.js"></script>
     <script>
         const $ = _ => document.querySelector(_);
 
@@ -35,21 +35,21 @@
         }
         function startVM() {
             var emulator = window.emulator = new V86Starter({
-                wasm_path: "/wax4web/v86.wasm",
+                wasm_path: "https://bomberfish.ca/sh1mmer/wax4web/v86.wasm",
                 memory_size: 512 * 1024 * 1024,
                 vga_memory_size: 2 * 1024 * 1024,
                 screen_container: $("#screen_container"),
                 bios: {
-                    url: "/wax4web/seabios.bin",
+                    url: "https://bomberfish.ca/sh1mmer/wax4web/seabios.bin",
                 },
                 vga_bios: {
-                    url: "/wax4web/vgabios.bin",
+                    url: "https://bomberfish.ca/sh1mmer/wax4web/vgabios.bin",
                 },
                 bzimage: {
-                    url: "/wax4web/bzImage"
+                    url: "https://bomberfish.ca/sh1mmer/wax4web/bzImage"
                 },
                 initrd: {
-                    url: "/wax4web/legacy"
+                    url: "https://bomberfish.ca/sh1mmer/wax4web/legacy"
                 },
                 hda: {
                     buffer: document.all.hd_image.files[0]
