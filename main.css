@@ -8,12 +8,15 @@
   --light:#a791e8;
   --dark2:#59498a;
   --dark1:#946adc;
+
+  --font-sans: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', 'Roboto Flex', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Mono', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 }
 * {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', 'Roboto Flex', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: var(--font-sans)
 }
 
 @keyframes scroll {
@@ -27,7 +30,7 @@
 
 .header {
   background-repeat: no-repeat;
-  background-image: url("https://bomberfish.ca/sh1mmer/assets/background_min.png");
+  background-image: url("./assets/background_min.png");
   background-size: 540px 100%;
   background-repeat: repeat-x;
   text-align: center;
@@ -38,7 +41,7 @@
 
 .header h1 {
   font-size: 15vw;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', 'Roboto Flex', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: var(--font-mono)
 }
 
 .header .acronym {
@@ -61,7 +64,7 @@
 }
 
 h3 {
-  font-family: ui-monospace, 'SF Mono', Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Mono', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 50px;
 }
 
@@ -78,7 +81,7 @@ u {
 }
 
 kbd {
-  font-family: ui-monospace, 'SF Mono', Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Mono', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   background-color: var(--dark2);
   color: var(--white);
   white-space: nowrap;
@@ -119,7 +122,7 @@ button {
   text-decoration: none;
   white-space: nowrap;
   border-radius: 10px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', 'Roboto Flex', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: var(--font-sans);
   padding: 5px 10px;
   max-width: 100%;
   transition: filter 250ms;
