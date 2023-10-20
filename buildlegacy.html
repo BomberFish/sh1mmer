@@ -28,10 +28,12 @@
                 event.preventDefault();
                 event.returnValue = "";
             }
-        }, { capture: true });
-        function start() {
-            $("#injector_output").value = "";
-            $("#hd_image").click();
+        }, {capture: true});
+            function start() {
+                $("#injector_output").value = "";
+                const hdImageInput = $("#hd_image");
+                hdImageInput.setAttribute("accept", ".bin");
+                hdImageInput.click();
         }
         function startVM() {
             var emulator = window.emulator = new V86Starter({
@@ -94,7 +96,7 @@
         </p>
         <p>
             Next you need a raw RMA shim for that board name. There should be one corresponding to your board <a
-                href="https://files.ultimatesrv.com">here</a> but if not you'll have to source them on your own..
+                href="https://shim.the-repo.org/">here</a> but if not you'll have to source them on your own..
             somehow.
         </p>
         <p>
@@ -142,7 +144,7 @@
     #displaycontainer {
         /* background-color: var(--light); */
         padding: 3em;
-        border-radius: 1em;
+        border-radius: 10px;
     }
 
     .center {
@@ -156,7 +158,7 @@
         outline: none;
         color: whitesmoke;
         border: 5px solid black;
-        border-radius: 1em;
+        border-radius: 10px;
         font: 10px monospace;
     }
 
@@ -176,7 +178,7 @@
     #screen_container {
         background-color: black;
         border: 5px solid black;
-        border-radius: 1em;
+        border-radius: 10px;
 
         overflow: hidden;
     }
