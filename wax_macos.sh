@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 if [ "$EUID" -ne 0 ]; then
-    echo "Please run as root"
+    echo "[!!] Please run as root"
     exit
 fi
 
@@ -9,7 +9,7 @@ echo "--------------------------------------------------------------------------
 echo "Welcome to wax, a shim modifying automation tool made by CoolElectronics and Sharp_Jack, greatly improved by r58playz and Rafflesia"
 echo "Prerequisites: fuse-ext2 & e2fsprogs must be installed, program must be ran as root, chromebrew.tar.gz needs to exist"
 echo "-------------------------------------------------------------------------------------------------------------"
-echo "Launch flags you should know about: --dev will install a much larger chromebrew partition used for testing, --antiskid will relock the rootfs"
+echo "Launch flags you should know about: --dev will install a much larger chromebrew partition used for testing, --antiskid will relock the rootfs after patching."
 echo "ORDER MATTERS! bin name before flags"
 
 bin=$1
@@ -22,7 +22,7 @@ else
     CHROMEBREW=chromebrew.tar.gz
 fi
 
-echo "Expanding bin for 'arch' partition. this will take a while"
+echo "[*] Expanding bin for 'arch' partition. this will take a while"
 
 dd if=/dev/zero bs=1G status=progress count=${CHROMEBREW_SIZE} >>$bin
 echo -ne "\a"
@@ -31,7 +31,7 @@ fdisk $bin <<EOF
 w
 
 EOF
-echo "Partitioning"
+echo "[*] Partitioning"
 # create new partition filling rest of disk
 fdisk $1 <<EOF
 n
@@ -40,42 +40,43 @@ n
 
 w
 EOF
-echo "Creating loop device"
+echo "[*] Creating loop device"
 loop=$(hdiutil attach -nomount $bin | awk '{print $1;}' | head -n 1)
 
-echo "Making arch partition"
+echo "[*] Making arch partition"
 mkfs.ext2 -L arch ${loop}s13 # ext2 so we can use skid protection features
 
-echo "Making ROOT mountable"
+echo "[*] Making ROOT mountable"
 sh lib/ssd_util.sh --no_resign_kernel --remove_rootfs_verification -i ${loop}
 
-echo "Creating Mountpoint"
+echo "[*] Creating Mountpoint"
 mkdir mnt || :
 mkdir mntarch || :
 
-echo "Mounting ROOT-A"
+echo "[*] Mounting ROOT-A"
 fuse-ext2 "${loop}s3" mnt -o rw+
-echo "Mounting arch"
+echo "[*] Mounting arch"
 fuse-ext2 "${loop}s13" mntarch -o rw+
 
-# echo "Accquiring chromebrew"
-# wget "https://files.alicesworld.tech/${CHROMEBREW}"
-# uncomment the two lines above when file servers go public or add the creds yourself
-echo "Extracting chromebrew"
+if [ ! -f "${CHROMEBREW}" ]; then
+        echo "[*] Accquiring ${CHROMEBREW}"
+        curl -LO http://dl.sh1mmer.me/build-tools/chromebrew/${CHROMEBREW}
+fi
+echo "[*] Extracting chromebrew"
 cd mntarch
 tar xvf ../${CHROMEBREW} --strip-components=1
 cp -rv ../payloads/* payloads/
 cd ..
 
-echo "Injecting payload"
+echo "[*] Injecting payload"
 cp -rv sh1mmer-assets mnt/usr/share/sh1mmer-assets
 cp -v sh1mmer-scripts/* mnt/usr/sbin/
 cp -v factory_install.sh mnt/usr/sbin/
 
-echo "Inserting firmware"
-curl "https://github.com/Netronome/linux-firmware/raw/master/iwlwifi-9000-pu-b0-jf-b0-41.ucode" >mnt/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-41.ucode
+echo "[*] Inserting firmware"
+curl -L "https://github.com/BomberFish/chromebook-wifidrivers/raw/master/iwlwifi-9000-pu-b0-jf-b0-34.ucode" >mnt/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-41.ucode
 
-echo "Brewing /etc/profile"
+echo "[*] Brewing /etc/profile"
 echo 'PATH="$PATH:/usr/local/bin"' >>mnt/etc/profile
 echo 'LD_LIBRARY_PATH="/lib64:/usr/lib64:/usr/local/lib64"' >>mnt/etc/profile
 
@@ -84,18 +85,18 @@ sleep 4
 
 # if you're reading this, you aren't a skid. run sh lib/ssd_util.sh --no_resign_kernel --remove_rootfs_verification --unlock_arch -i /dev/sdX on the flashed usb to undo this
 if [[ $* == *--antiskid* ]]; then
-    echo "relocking rootfs..."
+    echo "[*] Relocking RootFS..."
     sh lib/ssd_util.sh --no_resign_kernel --lock_root -i ${loop}
 fi
 
 sleep 2
 
-echo "Cleaning up..."
+echo "[*] Cleaning up..."
 sync
 if diskutil eject ${loop}; then
-    echo "Safely unmounted."
+    echo "[*] Safely unmounted."
 else
-    echo "Couldn't safely unmount. Please unmount and detach the loopbacks yourself."
+    echo "[!] Couldn't safely unmount. Please unmount and detach the loopbacks yourself."
 fi
 
-echo "Done. Have fun!"
+echo "[*] Done. Have fun!"
