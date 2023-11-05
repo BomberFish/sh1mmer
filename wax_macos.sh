@@ -49,7 +49,7 @@ echo "[*] Creating loop device"
 loop=$(hdiutil attach -nomount $bin | awk '{print $1;}' | head -n 1)
 
 echo "[*] Making arch partition"
-/usr/local/opt/e2fsprogs/sbin/mkfs.ext2 -L arch ${loop}s13 # ext2 so we can use skid protection features
+/usr/local/opt/e2fsprogs/sbin/mkfs.ext2 -L arch ${loop}p13 # ext2 so we can use skid protection features
 
 echo "[*] Making ROOT mountable"
 sh lib/ssd_util.sh --no_resign_kernel --remove_rootfs_verification -i ${loop}
@@ -79,7 +79,7 @@ cp -v sh1mmer-scripts/* mnt/usr/sbin/
 cp -v factory_install.sh mnt/usr/sbin/
 
 echo "[*] Inserting firmware"
-curl -L "https://github.com/BomberFish/chromebook-wifidrivers/raw/master/iwlwifi-9000-pu-b0-jf-b0-34.ucode" > mnt/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-41.ucode
+curl -L "https://github.com/BomberFish/chromebook-wifidrivers/raw/master/iwlwifi-9000-pu-b0-jf-b0-34.ucode" >mnt/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-41.ucode
 
 echo "[*] Brewing /etc/profile"
 echo 'PATH="$PATH:/usr/local/bin"' >>mnt/etc/profile
