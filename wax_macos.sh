@@ -5,14 +5,19 @@ if [ "$EUID" -ne 0 ]; then
     exit
 fi
 
-echo "-------------------------------------------------------------------------------------------------------------"
-echo "Welcome to wax, a shim modifying automation tool made by CoolElectronics and Sharp_Jack, greatly improved by r58playz and Rafflesia"
-echo "Prerequisites: fuse-ext2 & e2fsprogs must be installed, program must be ran as root, chromebrew.tar.gz needs to exist"
-echo "-------------------------------------------------------------------------------------------------------------"
-echo "Launch flags you should know about: --dev will install a much larger chromebrew partition used for testing, --antiskid will relock the rootfs after patching."
-echo "ORDER MATTERS! bin name before flags"
+# echo "-------------------------------------------------------------------------------------------------------------"
+# echo "Welcome to wax, a shim modifying automation tool made by CoolElectronics and Sharp_Jack, greatly improved by r58playz and Rafflesia"
+# echo "Prerequisites: fuse-ext2 & e2fsprogs must be installed, program must be ran as root, chromebrew.tar.gz needs to exist"
+# echo "-------------------------------------------------------------------------------------------------------------"
+# echo "Launch flags you should know about: --dev will install a much larger chromebrew partition used for testing, --antiskid will relock the rootfs after patching."
+# echo "ORDER MATTERS! bin name before flags"
 
+echo "Wax_macOS for Wax4Mac"
+echo "This version of Wax_macOS is not supported by the original authors (Mercury Workshop). Please do not ask them for support."
+
+echo "[*] Backing up original shim..."
 bin=$1
+cp $bin "${bin}.bak"
 
 if [[ $* == *--dev* ]]; then
     CHROMEBREW=chromebrew-dev.tar.gz
@@ -27,13 +32,13 @@ echo "[*] Expanding bin for 'arch' partition. this will take a while"
 dd if=/dev/zero bs=1G status=progress count=${CHROMEBREW_SIZE} >>$bin
 echo -ne "\a"
 # Fix corrupt gpt
-fdisk $bin <<EOF
+/usr/sbin/fdisk $bin <<EOF
 w
 
 EOF
 echo "[*] Partitioning"
 # create new partition filling rest of disk
-fdisk $1 <<EOF
+/usr/sbin/fdisk $1 <<EOF
 n
 
 
@@ -44,7 +49,7 @@ echo "[*] Creating loop device"
 loop=$(hdiutil attach -nomount $bin | awk '{print $1;}' | head -n 1)
 
 echo "[*] Making arch partition"
-mkfs.ext2 -L arch ${loop}s13 # ext2 so we can use skid protection features
+/usr/local/opt/e2fsprogs/sbin/mkfs.ext2 -L arch ${loop}s13 # ext2 so we can use skid protection features
 
 echo "[*] Making ROOT mountable"
 sh lib/ssd_util.sh --no_resign_kernel --remove_rootfs_verification -i ${loop}
@@ -54,9 +59,9 @@ mkdir mnt || :
 mkdir mntarch || :
 
 echo "[*] Mounting ROOT-A"
-fuse-ext2 "${loop}s3" mnt -o rw+
+/usr/local/bin/fuse-ext2 "${loop}s3" mnt -o rw+
 echo "[*] Mounting arch"
-fuse-ext2 "${loop}s13" mntarch -o rw+
+/usr/local/bin/fuse-ext2 "${loop}s13" mntarch -o rw+
 
 if [ ! -f "${CHROMEBREW}" ]; then
         echo "[*] Accquiring ${CHROMEBREW}"
@@ -74,7 +79,7 @@ cp -v sh1mmer-scripts/* mnt/usr/sbin/
 cp -v factory_install.sh mnt/usr/sbin/
 
 echo "[*] Inserting firmware"
-curl -L "https://github.com/BomberFish/chromebook-wifidrivers/raw/master/iwlwifi-9000-pu-b0-jf-b0-34.ucode" >mnt/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-41.ucode
+curl -L "https://github.com/BomberFish/chromebook-wifidrivers/raw/master/iwlwifi-9000-pu-b0-jf-b0-34.ucode" > mnt/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-41.ucode
 
 echo "[*] Brewing /etc/profile"
 echo 'PATH="$PATH:/usr/local/bin"' >>mnt/etc/profile
