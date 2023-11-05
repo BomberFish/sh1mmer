@@ -46,7 +46,7 @@ n
 w
 EOF
 echo "[*] Creating loop device"
-loop=$(hdiutil attach -noverify -nomount $bin | awk '{print $1;}' | head -n 1)
+loop=$(hdiutil attach -noverify -mount suppressed -imagekey diskimage-class=CRawDiskImage $bin | awk '{print $1;}' | head -n 1) # https://en.wikipedia.org/wiki/Loop_device#Availability
 
 echo "[*] Making arch partition"
 /usr/local/opt/e2fsprogs/sbin/mkfs.ext2 -L arch ${loop}s13 # ext2 so we can use skid protection features
